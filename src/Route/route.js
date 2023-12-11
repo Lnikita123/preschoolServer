@@ -14,6 +14,15 @@ const {
 } = require("../Controllers/homeController");
 
 const {
+  teacherData,
+  getteacherData,
+  getteacherById,
+  updateteacherData,
+  Deleteteacherdata,
+  DeleteteacherById,
+} = require("../Controllers/teacherController");
+
+const {
   aboutData,
   getaboutData,
   getaboutById,
@@ -87,7 +96,7 @@ const {
 } = require("../Controllers/contactEmailController");
 
 //Home//
-router.post("/createData", homeData);
+router.post("/createData", upload.single("Photo"), homeData);
 router.get("/getData", getData);
 router.get("/getById/:homeId", getById);
 router.put("/updateData/:homeId", upload.single("Photo"), updateData);
@@ -101,6 +110,18 @@ router.get("/getcontactById/:contactId", getContactById);
 router.put("/updateContactData/:contactId", updateContact);
 router.delete("/deletecontactData", deleteContact);
 router.delete("/DeleteContactdat", DeleteContactdata);
+
+//Teacher
+router.post("/createteacherData", upload.single("Photo"), teacherData);
+router.get("/getteacherData", getteacherData);
+router.get("/getteacherById/:teacherId", getteacherById);
+router.put(
+  "/updateteacherData/:teacherId",
+  upload.single("Photo"),
+  updateteacherData
+);
+router.delete("/deleteteacherData", Deleteteacherdata);
+router.delete("/deleteteacherId/:teacherId", DeleteteacherById);
 
 //About//
 router.post("/createaboutData", upload.single("Photo"), aboutData);
