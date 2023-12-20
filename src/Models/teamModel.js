@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
-const teacherSchema = new mongoose.Schema(
+const TeamDataSchema = new mongoose.Schema(
   {
     id: {
-      type: String,
+      type: Number,
     },
     Name: {
       type: String,
@@ -12,7 +12,7 @@ const teacherSchema = new mongoose.Schema(
     Education: {
       type: String,
     },
-    Photos: {
+    Photo: {
       type: String,
     },
 
@@ -26,4 +26,4 @@ const teacherSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-module.exports = mongoose.model("Teacher", teacherSchema);
+module.exports = mongoose.model("TeamData", TeamDataSchema);
