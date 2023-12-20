@@ -1,11 +1,11 @@
 const teacherModel = require("../Models/teacherModel");
 const teacherData = async (req, res) => {
   try {
-    const { id, Name, Education, Photos, Published } = req.body;
+    const { id, Name, Education, Photo, Published } = req.body;
 
     const newData = await teacherModel.findOneAndUpdate(
       { id }, // Query to find the document
-      { id, Name, Education, Photos, Published }, // The data to be updated or inserted
+      { id, Name, Education, Photo, Published }, // The data to be updated or inserted
       {
         new: true,
         upsert: true,
@@ -69,7 +69,7 @@ const updateteacherData = async (req, res) => {
       },
       { new: true }
     );
-    console.log("up", updateBody);
+
     return res.status(200).send({
       status: true,
       messege: "Data updated successfully",

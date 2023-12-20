@@ -69,7 +69,7 @@ const updateaddProgramData = async (req, res) => {
       },
       { new: true }
     );
-    console.log("up", updateBody);
+
     return res.status(200).send({
       status: true,
       messege: "Data updated successfully",

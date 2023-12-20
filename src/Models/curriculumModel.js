@@ -5,7 +5,7 @@ const curriculumSchema = new mongoose.Schema(
     id: {
       type: Number,
     },
-    Photos: {
+    Photo: {
       type: String,
     },
     Description: {

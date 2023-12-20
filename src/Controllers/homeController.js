@@ -1,35 +1,21 @@
 const homeModel = require("../Models/homeModal");
 const homeData = async (req, res) => {
   try {
-    const { _id, id, Photos, Published, Heading, Description, Link } = req.body;
-    const options = { upsert: true, new: true, setDefaultsOnInsert: true };
+    const { id, Heading, Description, Photos, Published, Link } = req.body;
 
-    let query = {};
-    if (_id) {
-      // Use the provided _id in the query if it exists
-      query._id = _id;
-    }
-
-    const update = {
-      id,
-      Photos, // Directly use the Photos array from req.body
-      Published,
-      Heading,
-      Description,
-      Link,
-    };
-
-    // Find a document with the provided _id (if it exists) and update it with the new values
-    const updatedData = await homeModel.findOneAndUpdate(
-      query,
-      update,
-      options
+    const newData = await homeModel.findOneAndUpdate(
+      { id }, // Query to find the document
+      { id, Heading, Description, Photos, Published, Link }, // The data to be updated or inserted
+      {
+        new: true,
+        upsert: true,
+      }
     );
 
-    return res.status(200).send({
+    return res.status(201).send({
       status: true,
       msg: "Data created or updated successfully",
-      data: updatedData,
+      data: newData,
     });
   } catch (err) {
     return res
@@ -37,7 +23,6 @@ const homeData = async (req, res) => {
       .send({ status: false, msg: "Server error", error: err.message });
   }
 };
-
 const getData = async (req, res) => {
   try {
     const homeData = await homeModel.findOne({ isDeleted: false });
@@ -82,7 +67,7 @@ const updateData = async (req, res) => {
       },
       { new: true }
     );
-    console.log("up", updateBody);
+
     return res.status(200).send({
       status: true,
       messege: "Data updated successfully",

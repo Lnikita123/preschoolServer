@@ -19,7 +19,6 @@ const homeSchema = new mongoose.Schema(
     },
     Published: {
       type: Boolean,
-      default: false,
     },
     isDeleted: {
       type: Boolean,

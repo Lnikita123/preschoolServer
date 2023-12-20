@@ -3,9 +3,9 @@ const multer = require("multer");
 const upload = multer();
 const programData = async (req, res) => {
   try {
-    const { _id, id, Photos, Published } = req.body;
+    const { _id, id, Photo, Published } = req.body;
 
-    if (!Photos) {
+    if (!Photo) {
       throw new Error("No image data provided");
     }
 
@@ -21,7 +21,7 @@ const programData = async (req, res) => {
     // The update object is what you want to save or update in the document
     const update = {
       id,
-      Photos,
+      Photo,
       Published,
     };
 

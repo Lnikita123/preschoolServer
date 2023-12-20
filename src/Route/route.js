@@ -73,7 +73,7 @@ const {
   deleteContact,
   DeleteContactdata,
   updateContact,
-} = require("../Controllers/contactController");
+} = require("../Controllers/homecontactController");
 
 const {
   contacpageData,
@@ -87,17 +87,21 @@ const {
 //**********************************user*******************************//
 
 const {
-  StudentcontactEmails,
-  getAllcontactEmails,
-  getcontactEmailById,
-  deletecontactEmail,
-  DeletecontactEmaildata,
-  updatecontactEmail,
-} = require("../Controllers/contactEmailController");
+  userHomeHomeData,
+  getuserHomeHomeData,
+  updateuserHomeHomeData,
+  DeleteuserHomeHomedata,
+} = require("../Controllers/userHomeController");
+
+//userHome
+router.post("/usercontactHomeData", userHomeHomeData);
+router.get("/getcontactHomeData", getuserHomeHomeData);
+router.put("/updatecontactHomeData/:userHomeId", updateuserHomeHomeData);
+router.delete("/DeletecontactHomedata", DeleteuserHomeHomedata);
 
 //Home//
 router.post("/createData", upload.single("Photo"), homeData);
-router.get("/getData", getData);
+router.get("/getHomeData", getData);
 router.get("/getById/:homeId", getById);
 router.put("/updateData/:homeId", upload.single("Photo"), updateData);
 router.delete("/deleteData", Deletedata);
@@ -140,7 +144,7 @@ router.post("/createadmissionData", upload.single("Photo"), admissionData);
 router.get("/getadmissionData", getadmissionData);
 router.get("/getadmissionById/:admissionId", getadmissionById);
 router.put(
-  "/updateadmissionData/:aboutId",
+  "/updateadmissionData/:admissionId",
   upload.single("Photo"),
   updateadmissionData
 );
@@ -196,11 +200,4 @@ router.put(
 router.delete("/Deletecontactpagedata", Deletecontacpagedata);
 router.delete("/DeletecontactpageById/:contactpageId", DeletecontacpageById);
 
-//contactEmail//
-router.post("/contactEmailData", StudentcontactEmails);
-router.get("/getcontactEmailData", getAllcontactEmails);
-router.get("/getcontactEmailById/:contactEmailId", getcontactEmailById);
-router.put("/updateContactEmailData/:contactEmailId", updatecontactEmail);
-router.delete("/deletecontactEmailData", deletecontactEmail);
-router.delete("/DeleteContactEmaildat", DeletecontactEmaildata);
 module.exports = router;

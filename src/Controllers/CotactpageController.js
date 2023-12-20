@@ -4,12 +4,12 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 const contacpageData = async (req, res) => {
   try {
-    const { id, Address, Photos, Email, Phone, Published } = req.body;
+    const { id, Address, Photo, Email, Phone, Published } = req.body;
 
     // findOneAndUpdate parameters: query, update, options
     const newData = await contacpageModel.findOneAndUpdate(
       { id }, // Query to find the document
-      { id, Address, Photos, Email, Phone, Published }, // The data to be updated or inserted
+      { id, Address, Photo, Email, Phone, Published }, // The data to be updated or inserted
       {
         new: true, // Return the modified document rather than the original
         upsert: true, // Create a new document if no document matches the query

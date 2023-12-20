@@ -1,7 +1,7 @@
 const express = require("express");
-const contactEmailModel = require("../Models/contactEmail");
-const postcontactEmailForm = async (req, res) => {};
-const StudentcontactEmails = async (req, res) => {
+const HomecontactModel = require("../Models/HomecontactModel");
+const postContactForm = async (req, res) => {};
+const StudentContacts = async (req, res) => {
   try {
     const { _id, id, Email, Published } = req.body;
     const options = { upsert: true, new: true, setDefaultsOnInsert: true };
@@ -16,7 +16,7 @@ const StudentcontactEmails = async (req, res) => {
       Published,
     };
 
-    const updatedData = await contactEmailModel.findOneAndUpdate(
+    const updatedData = await HomecontactModel.findOneAndUpdate(
       query,
       update,
       options
@@ -33,13 +33,13 @@ const StudentcontactEmails = async (req, res) => {
       .send({ status: false, msg: "Server error", error: err.message });
   }
 };
-const getAllcontactEmails = async (req, res) => {
+const getAllContacts = async (req, res) => {
   try {
-    const contactEmails = await contactEmailModel.findOne({ isDeleted: false });
+    const contacts = await HomecontactModel.findOne({ isDeleted: false });
     res.status(200).send({
       status: true,
-      msg: "contactEmails retrieved successfully",
-      data: contactEmails,
+      msg: "Contacts retrieved successfully",
+      data: contacts,
     });
   } catch (error) {
     return res
@@ -48,20 +48,20 @@ const getAllcontactEmails = async (req, res) => {
   }
 };
 
-const getcontactEmailById = async (req, res) => {
+const getContactById = async (req, res) => {
   try {
-    const contactEmailId = req.params.contactEmailId;
-    const contactEmail = await contactEmailModel.findById(contactEmailId);
-    if (!contactEmail) {
+    const contactId = req.params.contactId;
+    const contact = await HomecontactModel.findById(contactId);
+    if (!contact) {
       return res.status(404).send({
         status: false,
-        msg: "contactEmail not found",
+        msg: "Contact not found",
       });
     }
     res.status(200).send({
       status: true,
-      msg: "contactEmail retrieved successfully",
-      data: contactEmail,
+      msg: "Contact retrieved successfully",
+      data: contact,
     });
   } catch (error) {
     return res
@@ -70,18 +70,18 @@ const getcontactEmailById = async (req, res) => {
   }
 };
 
-const updatecontactEmail = async (req, res) => {
+const updateContact = async (req, res) => {
   try {
     let data = req.body;
     const { Published } = data;
-    let contactEmailId = req.params.contactEmailId;
+    let contactId = req.params.contactId;
 
-    const existingUnit = await contactEmailModel.findOne({
+    const existingUnit = await HomecontactModel.findOne({
       Published,
-      id: { $ne: contactEmailId },
+      id: { $ne: contactId },
     });
-    let updateBody = await contactEmailModel.findOneAndUpdate(
-      { id: contactEmailId },
+    let updateBody = await HomecontactModel.findOneAndUpdate(
+      { id: contactId },
       {
         $set: {
           Published: Published,
@@ -101,23 +101,21 @@ const updatecontactEmail = async (req, res) => {
   }
 };
 
-const deletecontactEmail = async (req, res) => {
+const deleteContact = async (req, res) => {
   try {
-    const contactEmailId = req.params.contactEmailId;
-    const deletedcontactEmail = await contactEmailModel.findByIdAndDelete(
-      contactEmailId
-    );
+    const contactId = req.params.contactId;
+    const deletedContact = await HomecontactModel.findByIdAndDelete(contactId);
 
-    if (!deletedcontactEmail) {
+    if (!deletedContact) {
       return res.status(404).send({
         status: false,
-        msg: "contactEmail not found",
+        msg: "Contact not found",
       });
     }
 
     res.status(200).send({
       status: true,
-      msg: "contactEmail deleted successfully",
+      msg: "Contact deleted successfully",
     });
   } catch (error) {
     return res
@@ -125,10 +123,10 @@ const deletecontactEmail = async (req, res) => {
       .send({ status: false, msg: "server error", error: err.message });
   }
 };
-const DeletecontactEmaildata = async (req, res) => {
+const DeleteContactdata = async (req, res) => {
   try {
-    const result = await contactEmailModel.deleteMany({});
-    res.send(`Deleted ${result.deletedCount} contactEmail`);
+    const result = await HomecontactModel.deleteMany({});
+    res.send(`Deleted ${result.deletedCount} contact`);
   } catch (error) {
     console.error(error);
     res
@@ -137,10 +135,10 @@ const DeletecontactEmaildata = async (req, res) => {
   }
 };
 module.exports = {
-  StudentcontactEmails,
-  getAllcontactEmails,
-  getcontactEmailById,
-  deletecontactEmail,
-  DeletecontactEmaildata,
-  updatecontactEmail,
+  StudentContacts,
+  getAllContacts,
+  getContactById,
+  deleteContact,
+  DeleteContactdata,
+  updateContact,
 };

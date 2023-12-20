@@ -8,7 +8,7 @@ const contacpageschema = new mongoose.Schema(
     Address: {
       type: String,
     },
-    Photos: {
+    Photo: {
       type: String,
     },
     Email: {
@@ -19,7 +19,6 @@ const contacpageschema = new mongoose.Schema(
     },
     Published: {
       type: Boolean,
-      default: false,
     },
     isDeleted: {
       type: Boolean,

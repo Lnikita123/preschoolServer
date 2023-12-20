@@ -1,21 +1,26 @@
 const mongoose = require("mongoose");
 
-const AddprogramSchema = new mongoose.Schema(
+const userHomeSchema = new mongoose.Schema(
   {
     id: {
       type: Number,
     },
-    Heading: {
+    Name: {
       type: String,
     },
 
-    Description: {
+    Age: {
       type: String,
     },
-    Photos: {
+    parentName: {
       type: String,
     },
-
+    Mobile: {
+      type: String,
+    },
+    Email: {
+      type: String,
+    },
     Published: {
       type: Boolean,
     },
@@ -26,4 +31,4 @@ const AddprogramSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-module.exports = mongoose.model("Addprogram", AddprogramSchema);
+module.exports = mongoose.model("Userhome", userHomeSchema);

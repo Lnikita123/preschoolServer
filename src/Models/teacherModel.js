@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const teacherSchema = new mongoose.Schema(
   {
     id: {
-      type: Number,
+      type: String,
     },
     Name: {
       type: String,
@@ -12,7 +12,7 @@ const teacherSchema = new mongoose.Schema(
     Education: {
       type: String,
     },
-    Photos: {
+    Photo: {
       type: String,
     },
 

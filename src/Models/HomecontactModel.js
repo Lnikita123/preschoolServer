@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const contactSchema = new mongoose.Schema(
+const homeContactSchema = new mongoose.Schema(
   {
     id: {
       type: Number,
@@ -19,4 +19,4 @@ const contactSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-module.exports = mongoose.model("Contact", contactSchema);
+module.exports = mongoose.model("Homecontact", homeContactSchema);
