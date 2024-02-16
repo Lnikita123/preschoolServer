@@ -92,33 +92,38 @@ const DeleteaddProgramdata = async (req, res) => {
       .send({ status: false, msg: "server error", error: err.message });
   }
 };
+
 const DeleteaddProgramById = async (req, res) => {
   try {
     let addProgramId = req.params.addProgramId;
 
-    const page = await addProgramModel.findOne({ addProgramId: addProgramId });
-    if (!page) {
-      return res.status(400).send({ status: false, message: `page not Found` });
-    }
-    if (page.isDeleted == false) {
-      await addProgramModel.findOneAndUpdate(
-        { addProgramId: addProgramId },
-        { $set: { isDeleted: true, deletedAt: new Date() } }
-      );
+    // Convert addProgramId to Number as your id in schema is of type Number
+    addProgramId = Number(addProgramId);
 
+    // Check if the document exists and is not deleted
+    const page = await addProgramModel.findOne({
+      id: addProgramId,
+      isDeleted: false,
+    });
+    if (!page) {
       return res
-        .status(200)
-        .send({ status: true, message: `Data deleted successfully.` });
+        .status(404)
+        .send({ status: false, message: `Page not found or already deleted` });
     }
+
+    // Perform the hard delete
+    await addProgramModel.findOneAndDelete({ id: addProgramId });
+
     return res
-      .status(400)
-      .send({ status: true, message: `Data has been already deleted.` });
+      .status(200)
+      .send({ status: true, message: `Data deleted successfully.` });
   } catch (err) {
     return res
       .status(500)
-      .send({ status: false, msg: "server error", error: err.message });
+      .send({ status: false, msg: "Server error", error: err.message });
   }
 };
+
 module.exports = {
   addProgramData,
   getaddProgramData,

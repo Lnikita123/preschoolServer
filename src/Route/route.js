@@ -200,4 +200,15 @@ router.put(
 router.delete("/Deletecontactpagedata", Deletecontacpagedata);
 router.delete("/DeletecontactpageById/:contactpageId", DeletecontacpageById);
 
+
+//user
+const {
+  createUser,
+  userLogin,
+  getusersData,
+} = require("../Controllers/loginController");
+//user Login
+router.post("/createUser", createUser);
+router.post("/Loginuser", userLogin);
+router.get("/getusersData", getusersData);
 module.exports = router;

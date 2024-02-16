@@ -96,35 +96,38 @@ const Deletecontacpagedata = async (req, res) => {
       .send({ status: false, msg: "server error", error: err.message });
   }
 };
+
 const DeletecontacpageById = async (req, res) => {
   try {
     let contactpageId = req.params.contactpageId;
 
+    // Convert contactpageId to Number as your id in schema is of type Number
+    contactpageId = Number(contactpageId);
+
+    // Check if the document exists and is not deleted
     const page = await contacpageModel.findOne({
-      contactpageId: contactpageId,
+      id: contactpageId,
+      isDeleted: false,
     });
     if (!page) {
-      return res.status(400).send({ status: false, message: `page not Found` });
-    }
-    if (page.isDeleted == false) {
-      await contacpageModel.findOneAndUpdate(
-        { contactpageId: contactpageId },
-        { $set: { isDeleted: true, deletedAt: new Date() } }
-      );
-
       return res
-        .status(200)
-        .send({ status: true, message: `Data deleted successfully.` });
+        .status(404)
+        .send({ status: false, message: `Page not found or already deleted` });
     }
+
+    // Perform the hard delete
+    await contacpageModel.findOneAndDelete({ id: contactpageId });
+
     return res
-      .status(400)
-      .send({ status: true, message: `Data has been already deleted.` });
-  } catch (error) {
+      .status(200)
+      .send({ status: true, message: `Data deleted successfully.` });
+  } catch (err) {
     return res
       .status(500)
-      .send({ status: false, msg: "server error", error: err.message });
+      .send({ status: false, msg: "Server error", error: err.message });
   }
 };
+
 module.exports = {
   contacpageData,
   getcontacpageData,

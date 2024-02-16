@@ -90,33 +90,38 @@ const Deletedata = async (req, res) => {
       .send({ status: false, msg: "server error", error: err.message });
   }
 };
+
 const DeleteById = async (req, res) => {
   try {
     let homeId = req.params.homeId;
 
-    const page = await homeModel.findOne({ homeId: homeId });
-    if (!page) {
-      return res.status(400).send({ status: false, message: `page not Found` });
-    }
-    if (page.isDeleted == false) {
-      await homeModel.findOneAndUpdate(
-        { homeId: homeId },
-        { $set: { isDeleted: true, deletedAt: new Date() } }
-      );
+    // Convert homeId to Number as your id in schema is of type Number
+    homeId = Number(homeId);
 
+    // Check if the document exists and is not deleted
+    const page = await homeModel.findOne({
+      id: homeId,
+      isDeleted: false,
+    });
+    if (!page) {
       return res
-        .status(200)
-        .send({ status: true, message: `Data deleted successfully.` });
+        .status(404)
+        .send({ status: false, message: `Page not found or already deleted` });
     }
+
+    // Perform the hard delete
+    await homeModel.findOneAndDelete({ id: homeId });
+
     return res
-      .status(400)
-      .send({ status: true, message: `Data has been already deleted.` });
+      .status(200)
+      .send({ status: true, message: `Data deleted successfully.` });
   } catch (err) {
     return res
       .status(500)
-      .send({ status: false, msg: "server error", error: err.message });
+      .send({ status: false, msg: "Server error", error: err.message });
   }
 };
+
 module.exports = {
   homeData,
   getData,

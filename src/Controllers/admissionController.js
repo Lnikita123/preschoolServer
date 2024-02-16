@@ -120,29 +120,33 @@ const DeleteadmissionById = async (req, res) => {
   try {
     let admissionId = req.params.admissionId;
 
-    const page = await admissionModel.findOne({ admissionId: admissionId });
-    if (!page) {
-      return res.status(400).send({ status: false, message: `page not Found` });
-    }
-    if (page.isDeleted == false) {
-      await admissionModel.findOneAndUpdate(
-        { admissionId: admissionId },
-        { $set: { isDeleted: true, deletedAt: new Date() } }
-      );
+    // Convert admissionId to Number as your id in schema is of type Number
+    admissionId = Number(admissionId);
 
+    // Check if the document exists and is not deleted
+    const page = await admissionModel.findOne({
+      id: admissionId,
+      isDeleted: false,
+    });
+    if (!page) {
       return res
-        .status(200)
-        .send({ status: true, message: `Data deleted successfully.` });
+        .status(404)
+        .send({ status: false, message: `Page not found or already deleted` });
     }
+
+    // Perform the hard delete
+    await admissionModel.findOneAndDelete({ id: admissionId });
+
     return res
-      .status(400)
-      .send({ status: true, message: `Data has been already deleted.` });
+      .status(200)
+      .send({ status: true, message: `Data deleted successfully.` });
   } catch (err) {
     return res
       .status(500)
-      .send({ status: false, msg: "server error", error: err.message });
+      .send({ status: false, msg: "Server error", error: err.message });
   }
 };
+
 module.exports = {
   admissionData,
   getadmissionData,

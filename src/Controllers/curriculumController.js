@@ -122,29 +122,33 @@ const DeletecurriculumById = async (req, res) => {
   try {
     let curriculumId = req.params.curriculumId;
 
-    const page = await curriculumModel.findOne({ curriculumId: curriculumId });
-    if (!page) {
-      return res.status(400).send({ status: false, message: `page not Found` });
-    }
-    if (page.isDeleted == false) {
-      await curriculumModel.findOneAndUpdate(
-        { curriculumId: curriculumId },
-        { $set: { isDeleted: true, deletedAt: new Date() } }
-      );
+    // Convert curriculumId to Number as your id in schema is of type Number
+    curriculumId = Number(curriculumId);
 
+    // Check if the document exists and is not deleted
+    const page = await curriculumModel.findOne({
+      id: curriculumId,
+      isDeleted: false,
+    });
+    if (!page) {
       return res
-        .status(200)
-        .send({ status: true, message: `Data deleted successfully.` });
+        .status(404)
+        .send({ status: false, message: `Page not found or already deleted` });
     }
+
+    // Perform the hard delete
+    await curriculumModel.findOneAndDelete({ id: curriculumId });
+
     return res
-      .status(400)
-      .send({ status: true, message: `Data has been already deleted.` });
+      .status(200)
+      .send({ status: true, message: `Data deleted successfully.` });
   } catch (err) {
     return res
       .status(500)
-      .send({ status: false, msg: "server error", error: err.message });
+      .send({ status: false, msg: "Server error", error: err.message });
   }
 };
+
 module.exports = {
   curriculumData,
   getcurriculumData,
