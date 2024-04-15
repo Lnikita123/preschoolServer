@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
-// const Middleware = require("../middleware/authorization");
+const Middleware = require("../middleware/authorization")
 const storage = multer.memoryStorage(); // using memory storage for simplicity
 const upload = multer({ storage: storage });
 const {
@@ -100,12 +100,12 @@ router.put("/updatecontactHomeData/:userHomeId", updateuserHomeHomeData);
 router.delete("/DeletecontactHomedata", DeleteuserHomeHomedata);
 
 //Home//
-router.post("/createData", upload.single("Photo"), homeData);
+router.post("/createData", upload.single("Photo"), Middleware.loginCheck, homeData);
 router.get("/getHomeData", getData);
 router.get("/getById/:homeId", getById);
-router.put("/updateData/:homeId", upload.single("Photo"), updateData);
+router.put("/updateData/:homeId", upload.single("Photo"), Middleware.loginCheck, updateData);
 router.delete("/deleteData", Deletedata);
-router.delete("/deleteId/:homeId", DeleteById);
+router.delete("/deleteId/:homeId", Middleware.loginCheck, DeleteById);
 
 //contact//
 router.post("/contactData", StudentContacts);
@@ -116,77 +116,77 @@ router.delete("/deletecontactData", deleteContact);
 router.delete("/DeleteContactdat", DeleteContactdata);
 
 //Teacher
-router.post("/createteacherData", upload.single("Photo"), teacherData);
+router.post("/createteacherData", upload.single("Photo"), Middleware.loginCheck, teacherData);
 router.get("/getteacherData", getteacherData);
 router.get("/getteacherById/:teacherId", getteacherById);
 router.put(
   "/updateteacherData/:teacherId",
-  upload.single("Photo"),
+  upload.single("Photo"), Middleware.loginCheck,
   updateteacherData
 );
 router.delete("/deleteteacherData", Deleteteacherdata);
-router.delete("/deleteteacherId/:teacherId", DeleteteacherById);
+router.delete("/deleteteacherId/:teacherId", Middleware.loginCheck, DeleteteacherById);
 
 //About//
-router.post("/createaboutData", upload.single("Photo"), aboutData);
+router.post("/createaboutData", upload.single("Photo"), Middleware.loginCheck, aboutData);
 router.get("/getaboutData", getaboutData);
 router.get("/getaboutById/:aboutId", getaboutById);
 router.put(
   "/updataabouteData/:aboutId",
-  upload.single("Photo"),
+  upload.single("Photo"), Middleware.loginCheck,
   updateaboutData
 );
 router.delete("/deleteaboutData", Deleteaboutdata);
-router.delete("/deleteaboutId/:aboutId", DeleteaboutById);
+router.delete("/deleteaboutId/:aboutId", Middleware.loginCheck, DeleteaboutById);
 
 //Admission
-router.post("/createadmissionData", upload.single("Photo"), admissionData);
+router.post("/createadmissionData", upload.single("Photo"), Middleware.loginCheck, admissionData);
 router.get("/getadmissionData", getadmissionData);
 router.get("/getadmissionById/:admissionId", getadmissionById);
 router.put(
-  "/updateadmissionData/:admissionId",
+  "/updateadmissionData/:admissionId", Middleware.loginCheck,
   upload.single("Photo"),
   updateadmissionData
 );
 router.delete("/deleteadmissionData", Deleteadmissiondata);
-router.delete("/deleteadmissionId/:admissionId", DeleteadmissionById);
+router.delete("/deleteadmissionId/:admissionId", Middleware.loginCheck, DeleteadmissionById);
 
 //program
 
-router.post("/createprogramData", upload.single("Photo"), programData);
+router.post("/createprogramData", upload.single("Photo"), Middleware.loginCheck, programData);
 router.get("/getprogramData", getprogramData);
 router.get("/getprogramById/:programId", getprogramById);
 router.put(
-  "/updataprogrameData/:programId",
+  "/updataprogrameData/:programId", Middleware.loginCheck,
   upload.single("Photo"),
   updateprogramData
 );
 router.delete("/deleteprogramData", Deleteprogramdata);
-router.delete("/deleteprogramId/:programId", DeleteprogramById);
+router.delete("/deleteprogramId/:programId", Middleware.loginCheck, DeleteprogramById);
 
 //AddProgramData//
-router.post("/createaddProgramData", upload.single("Photo"), addProgramData);
+router.post("/createaddProgramData", upload.single("Photo"), Middleware.loginCheck, addProgramData);
 router.get("/getaddProgramData", getaddProgramData);
 router.get("/getaddProgramById/:addProgramId", getaddProgramById);
 router.put(
-  "/updataaddProgrameData/:addProgramId",
+  "/updataaddProgrameData/:addProgramId", Middleware.loginCheck,
   upload.single("Photo"),
   updateaddProgramData
 );
 router.delete("/deleteaddProgramData", DeleteaddProgramdata);
-router.delete("/deleteaddProgramId/:addProgramId", DeleteaddProgramById);
+router.delete("/deleteaddProgramId/:addProgramId", Middleware.loginCheck, DeleteaddProgramById);
 
 //Curriculum//
-router.post("/createcurriculumData", upload.single("Photo"), curriculumData);
+router.post("/createcurriculumData", upload.single("Photo"), Middleware.loginCheck, curriculumData);
 router.get("/getcurriculumData", getcurriculumData);
 router.get("/getcurriculumById/:curriculumId", getcurriculumById);
 router.put(
   "/updatacurriculumeData/:curriculumId",
-  upload.single("Photo"),
+  upload.single("Photo"), Middleware.loginCheck,
   updatecurriculumData
 );
 router.delete("/deletecurriculumData", Deletecurriculumdata);
-router.delete("/deletecurriculumId/:curriculumId", DeletecurriculumById);
+router.delete("/deletecurriculumId/:curriculumId", Middleware.loginCheck, DeletecurriculumById);
 
 //contactPage
 router.post("/contactpageData", upload.single("Photo"), contacpageData);
